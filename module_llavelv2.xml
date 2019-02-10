@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_llavelv2" default="compile.module.llavelv2">
+  <dirname property="module.llavelv2.basedir" file="${ant.file.module_llavelv2}"/>
+  
+  <property name="module.jdk.home.llavelv2" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.llavelv2" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.llavelv2" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.llavelv2" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="llavelv2.output.dir" value="${module.llavelv2.basedir}/out/production/Llavelv2"/>
+  <property name="llavelv2.testoutput.dir" value="${module.llavelv2.basedir}/out/test/Llavelv2"/>
+  
+  <path id="llavelv2.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="llavelv2.module.production.classpath">
+    <path refid="${module.jdk.classpath.llavelv2}"/>
+  </path>
+  
+  <path id="llavelv2.runtime.production.module.classpath">
+    <pathelement location="${llavelv2.output.dir}"/>
+  </path>
+  
+  <path id="llavelv2.module.classpath">
+    <path refid="${module.jdk.classpath.llavelv2}"/>
+    <pathelement location="${llavelv2.output.dir}"/>
+  </path>
+  
+  <path id="llavelv2.runtime.module.classpath">
+    <pathelement location="${llavelv2.testoutput.dir}"/>
+    <pathelement location="${llavelv2.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.llavelv2">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.llavelv2">
+    <patternset refid="excluded.from.module.llavelv2"/>
+  </patternset>
+  
+  <path id="llavelv2.module.sourcepath">
+    <dirset dir="${module.llavelv2.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.llavelv2" depends="compile.module.llavelv2.production,compile.module.llavelv2.tests" description="Compile module Llavelv2"/>
+  
+  <target name="compile.module.llavelv2.production" depends="register.custom.compilers" description="Compile module Llavelv2; production classes">
+    <mkdir dir="${llavelv2.output.dir}"/>
+    <javac2 destdir="${llavelv2.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.llavelv2}/javac">
+      <compilerarg line="${compiler.args.llavelv2}"/>
+      <bootclasspath refid="llavelv2.module.bootclasspath"/>
+      <classpath refid="llavelv2.module.production.classpath"/>
+      <src refid="llavelv2.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.llavelv2"/>
+    </javac2>
+    
+    <copy todir="${llavelv2.output.dir}">
+      <fileset dir="${module.llavelv2.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.llavelv2.tests" depends="register.custom.compilers,compile.module.llavelv2.production" description="compile module Llavelv2; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.llavelv2" description="cleanup module">
+    <delete dir="${llavelv2.output.dir}"/>
+    <delete dir="${llavelv2.testoutput.dir}"/>
+  </target>
+</project>
