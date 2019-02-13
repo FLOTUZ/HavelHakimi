@@ -68,8 +68,9 @@ class Venatana extends JDialog {
             }
         });
     }
+
     private void operacion() {
-        try {
+       try {
             ordenar();//Ordena los numeros con Collections
             int resta = del();  //Regresa el numero de veces a restar y elimina el primer nodo
             Integer resultado;
@@ -79,7 +80,11 @@ class Venatana extends JDialog {
             }
         if ((datos.isEmpty())) {} else {areaRespuesta.append(datos.toString() + " | Elimina nodo\n");}
         }catch (Exception e){areaRespuesta.append(" \n Es una secuencia imposible");}
-        if ((datos.size() != 0)) operacion();
+        if ((datos.get(0) != 0)) {
+            operacion();
+        }else{
+            areaRespuesta.append("\n Es una secuencia posible ");
+        }
     }
     private int del() {
         int resta = datos.get(0);
@@ -89,7 +94,6 @@ class Venatana extends JDialog {
         }
         return resta;
     }
-
     private void ordenar() {
         ArrayList <Integer> clon= new ArrayList<>();
         for (int i = 0; i < datos.size(); i++) {
@@ -117,12 +121,10 @@ class Venatana extends JDialog {
                     " reinicie la entrada de datos");
         }
     }
-
     private void onCancel() {
         // add your code here if necessary
         dispose();
     }
-
     public static void main(String[] args) {
         Venatana dialog = new Venatana();
         dialog.pack();
